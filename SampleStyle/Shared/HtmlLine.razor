@@ -1,0 +1,59 @@
+﻿<span class="line" style=@(styles) />
+@code {
+    [Parameter]
+    public double X1 { get; set; }
+    [Parameter]
+    public double Y1 { get; set; }
+    [Parameter]
+    public double X2 { get; set; }
+    [Parameter]
+    public double Y2 { get; set; }
+    [Parameter]
+    public string LineWidth { get; set; } = "4px";
+    [Parameter]
+    public int ZIndex { get; set; }
+    [Parameter]
+    public string Colour { get; set; }
+    [Parameter]
+    public string TransitionSelector { get; set; } = "all";
+    [Parameter]
+    public string TransitionDuration { get; set; } = "16ms";
+    [Parameter]
+    public string TransitionTiming { get; set; } = "ease-in-out";
+    [Parameter]
+    public string Units { get; set; } = "px";
+    [Parameter]
+    public string BorderRadius { get; set; } = "5px";
+
+    private CssProperties styleProperties = new CssProperties()
+    {
+        Position = "absolute",
+        BoxShadow = "0px 0px 5px blue",
+        TransformOrigin = "0 100%",
+    };
+    private string styles;
+
+    private int length => (int)Math.Ceiling(Math.Sqrt((X1 - X2) * (X1 - X2) + (Y1 - Y2) * (Y1 - Y2)));
+    private double angle => Math.Atan2(Y2 - Y1, X2 - X1) * 180 / Math.PI;
+    private string transform => $"rotate({angle}deg)";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        styleProperties.BorderTopLeftRadius = BorderRadius;
+        styleProperties.BorderTopRightRadius = BorderRadius;
+        styleProperties.BorderBottomLeftRadius = BorderRadius;
+        styleProperties.BorderBottomRightRadius = BorderRadius;
+        styleProperties.TransitionProperty = TransitionSelector;
+        styleProperties.TransitionDuration = TransitionDuration;
+        styleProperties.TransitionTimingFunction = TransitionTiming;
+        styleProperties.Height = LineWidth;
+        styleProperties.BackgroundColor = Colour;
+        styleProperties.Transform = transform;
+        styleProperties.Width = $"{length}{Units}";
+        styleProperties.Left = $"{X1}{Units}";
+        styleProperties.Top = $"{Y1}{Units}";
+        styleProperties.ZIndex = ZIndex.ToString();
+        styles = styleProperties.ToString();
+    }
+}
