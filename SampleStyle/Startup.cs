@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 namespace SampleStyle
 {
@@ -21,6 +22,10 @@ namespace SampleStyle
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            foreach (var item in services)
+            {
+                System.Console.WriteLine($"Service: {item.Lifetime} : {item.ServiceType.Name}");
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
