@@ -5,3 +5,19 @@
 Welcome to your new app.
 
 <HtmlLine X1="130" Y1="160" X2="360" Y2="360" Units="px" Colour="Red"/>
+
+@code 
+{ 
+    [Inject] public IJSRuntime JSRuntime { get; set; }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        Console.WriteLine(Environment.GetEnvironmentVariable("USER"));
+        Console.WriteLine(JSRuntime is IJSInProcessRuntime);
+        Console.WriteLine(Environment.OSVersion);
+        Console.WriteLine(Environment.MachineName);
+        Console.WriteLine(Environment.SystemDirectory);
+        Console.WriteLine(Environment.UserName);
+        Console.WriteLine(Environment.CurrentDirectory);
+    }
+}
